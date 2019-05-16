@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const port = 4000;
 const monk = require("monk");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -21,10 +22,9 @@ db.then(() => {
 const people = db.get("collection1"); //in this case, its 'collection1'
 // need to add a get for a single record from my database
 app.get("/", async (req, res) => {
-  res.send('server is working, thank god');
   const result = await people.find();
   console.log("got called");
-  // res.status(200).send(result);
+  res.status(200).send(result);
 });
 app.post("/", async (req, res) => {
   const result = await people.insert(req.body);
@@ -48,4 +48,4 @@ app.get ("/:id", async (req, res) => {
   res.status(200).send(result);
 })
 
-app.listen(process.env.PORT || 4000, () => console.log(`Example app listening on port ${process.env.PORT}!`));
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
